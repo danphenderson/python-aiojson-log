@@ -1,0 +1,103 @@
+name: build
+on: [push, pull_request]
+jobs:
+  test:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: 'py310-cover (ubuntu)'
+            python: '3.10'
+            toxpython: 'python3.10'
+            python_arch: 'x64'
+            tox_env: 'py310-cover,codecov'
+            os: 'ubuntu-latest'
+          - name: 'py310-cover (windows)'
+            python: '3.10'
+            toxpython: 'python3.10'
+            python_arch: 'x64'
+            tox_env: 'py310-cover,codecov'
+            os: 'windows-latest'
+          - name: 'py310-cover (macos)'
+            python: '3.10'
+            toxpython: 'python3.10'
+            python_arch: 'x64'
+            tox_env: 'py310-cover,codecov'
+            os: 'macos-latest'
+          - name: 'py310-nocov (ubuntu)'
+            python: '3.10'
+            toxpython: 'python3.10'
+            python_arch: 'x64'
+            tox_env: 'py310-nocov'
+            os: 'ubuntu-latest'
+          - name: 'py310-nocov (windows)'
+            python: '3.10'
+            toxpython: 'python3.10'
+            python_arch: 'x64'
+            tox_env: 'py310-nocov'
+            os: 'windows-latest'
+          - name: 'py310-nocov (macos)'
+            python: '3.10'
+            toxpython: 'python3.10'
+            python_arch: 'x64'
+            tox_env: 'py310-nocov'
+            os: 'macos-latest'
+          - name: 'pypy3-cover (ubuntu)'
+            python: 'pypy-3.'
+            toxpython: 'pypy3.'
+            python_arch: 'x64'
+            tox_env: 'pypy3-cover,codecov'
+            os: 'ubuntu-latest'
+          - name: 'pypy3-cover (windows)'
+            python: 'pypy-3.'
+            toxpython: 'pypy3.'
+            python_arch: 'x64'
+            tox_env: 'pypy3-cover,codecov'
+            os: 'windows-latest'
+          - name: 'pypy3-cover (macos)'
+            python: 'pypy-3.'
+            toxpython: 'pypy3.'
+            python_arch: 'x64'
+            tox_env: 'pypy3-cover,codecov'
+            os: 'macos-latest'
+          - name: 'pypy3-nocov (ubuntu)'
+            python: 'pypy-3.'
+            toxpython: 'pypy3.'
+            python_arch: 'x64'
+            tox_env: 'pypy3-nocov'
+            os: 'ubuntu-latest'
+          - name: 'pypy3-nocov (windows)'
+            python: 'pypy-3.'
+            toxpython: 'pypy3.'
+            python_arch: 'x64'
+            tox_env: 'pypy3-nocov'
+            os: 'windows-latest'
+          - name: 'pypy3-nocov (macos)'
+            python: 'pypy-3.'
+            toxpython: 'pypy3.'
+            python_arch: 'x64'
+            tox_env: 'pypy3-nocov'
+            os: 'macos-latest'
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python }}
+        architecture: ${{ matrix.python_arch }}
+    - name: install dependencies
+      run: |
+        python -m pip install --progress-bar=off '.[test,cli]'
+        virtualenv --version
+        pip --version
+        tox --version
+        pip list --format=freeze
+    - name: test
+      env:
+        TOXPYTHON: '${{ matrix.toxpython }}'
+      run: >
+        pytest --trace --color=yes
