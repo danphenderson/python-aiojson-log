@@ -92,9 +92,7 @@ jobs:
     - name: install dependencies
       run: |
         python -m pip install --progress-bar=off '.[test,cli]'
-        virtualenv --version
         pip --version
-        tox --version
         pip list --format=freeze
     - name: test
       env:
