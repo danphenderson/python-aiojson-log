@@ -27,7 +27,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11"
 ]
 dependencies = [
-    "asyncio", "aiofiles"
+    "asyncio"
 ]
 
 [project.optional-dependencies]
@@ -35,16 +35,11 @@ cli = [
     "rich",
     "click"
 ]
-dev = [
-    "ipython",
-    "mypy",
-    "types-aiofiles"
-]
 test = [
     "coverage[toml]",
     "pytest",
     "pytest-asyncio",
-    "pytest-cov",
+    "pytest-cov"
 ]
 
 
@@ -64,6 +59,7 @@ forced_separate = "test_aiojson_log"
 
 [tool.flake8]
 max-line-length = 140
+extend-ignore = ["E501", "F401"]
 
 
 [tool.coverage.paths]
