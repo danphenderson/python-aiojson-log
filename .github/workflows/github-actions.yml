@@ -37,7 +37,7 @@ jobs:
             python: '3.11'
             python_arch: 'x64'
             os: 'ubuntu-latest'
-          - name: 'pypy3-cover (windows)'
+          - name: 'pypy311-cover (windows)'
             python: '3.11'
             python_arch: 'x64'
             os: 'windows-latest'
